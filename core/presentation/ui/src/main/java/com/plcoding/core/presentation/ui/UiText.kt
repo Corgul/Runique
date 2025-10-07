@@ -13,10 +13,17 @@ sealed interface UiText {
     ): UiText
 
     @Composable
-    fun asString(context: Context): String {
+    fun asString(): String {
         return when(this) {
             is DynamicString -> value
             is StringResource -> stringResource(id = id, *args)
+        }
+    }
+
+    fun asString(context: Context): String {
+        return when(this) {
+            is DynamicString -> value
+            is StringResource -> context.getString(id, *args)
         }
     }
 }
